@@ -1,0 +1,123 @@
+.filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Row 1: 4 equal select columns */
+.filter-row--selects {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Row 2: 2 sliders + 2 toggles + reset — toggles sized to content */
+.filter-row--controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto 148px;
+  gap: 12px;
+  align-items: start;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0; /* prevent grid blowout */
+}
+
+.filter-group--toggle {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Reset button always occupies space — visibility toggled in JS */
+.filter-group--reset {
+  justify-content: flex-end;
+  align-self: end;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+/* Fixed-width number part of slider labels */
+.filter-label-num {
+  display: inline-block;
+  min-width: 62px;    /* enough for "2000 ккал" */
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.filter-select {
+  width: 100%;
+}
+
+.filter-reset-btn {
+  width: 100%;
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.filter-reset-btn:hover {
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+/* ── Tablet: 2 + 2 selects, controls wrap ── */
+@media (max-width: 1100px) {
+  .filter-row--selects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-row--controls {
+    grid-template-columns: 1fr 1fr auto auto;
+  }
+
+  /* Hide reset button on controls row, show it as 5th item spanning full width */
+  .filter-group--reset {
+    grid-column: 1 / -1;
+  }
+
+  .filter-reset-btn {
+    width: auto;
+  }
+}
+
+/* ── Mobile: single column ── */
+@media (max-width: 640px) {
+  .filter-row--selects {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-row--controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-group--toggle {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter-group--reset {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 420px) {
+  .filter-row--selects,
+  .filter-row--controls {
+    grid-template-columns: 1fr;
+  }
+}
