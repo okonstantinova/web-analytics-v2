@@ -1,0 +1,155 @@
+.similar-recipes {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+  border-top: 1px solid var(--color-border);
+}
+
+.similar-recipes-header {
+  margin-bottom: 20px;
+}
+
+.similar-recipes-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.similar-recipes-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.similar-recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .similar-recipes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .similar-recipes {
+    padding: 32px 16px 48px;
+  }
+
+  .similar-recipes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .similar-recipes-title {
+    font-size: 19px;
+  }
+}
+
+/* Floating hint pointing the reader to the section below */
+.similar-hint {
+  position: fixed;
+  right: 22px;
+  bottom: 26%;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease,
+              color 0.15s ease, border-color 0.15s ease;
+}
+
+.similar-hint--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.similar-hint:hover {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+.similar-hint-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.similar-hint-text-lead {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.72;
+}
+
+.similar-hint-text-main {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.similar-hint-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-tag-bg);
+  color: var(--color-primary);
+  font-size: 12px;
+  animation: similar-hint-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes similar-hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+@media (max-width: 640px) {
+  .similar-hint {
+    right: 12px;
+    bottom: 16px;
+    padding: 8px 12px;
+    gap: 8px;
+    border-radius: 18px;
+  }
+
+  .similar-hint-text-lead {
+    display: none;
+  }
+
+  .similar-hint-text-main {
+    font-size: 12px;
+  }
+
+  .similar-hint-arrow {
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .similar-hint-arrow {
+    animation: none;
+  }
+}

@@ -1,0 +1,7 @@
+services:
+  khrum-khrum-v1:
+    build: .
+    container_name: khrum-khrum-v1
+    ports:
+      - "5174:5173"
+    restart: unless-stopped

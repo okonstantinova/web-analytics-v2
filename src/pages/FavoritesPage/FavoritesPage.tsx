@@ -1,4 +1,5 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { useFavorites } from '../../context/FavoritesContext';
 import { getAllRecipes } from '../../services/recipeService';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
@@ -9,9 +10,24 @@ const allRecipes = getAllRecipes();
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
   const favoriteRecipes = allRecipes.filter(r => favorites.includes(r.id));
+  const navigate = useNavigate();
+
+  function handleBack() {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  }
 
   return (
     <main className="favorites-page">
+      <div className="favorites-back">
+        <button className="favorites-back-btn" onClick={handleBack}>
+          <ArrowLeftOutlined />
+          <span>Назад к рецептам</span>
+        </button>
+      </div>
       <div className="favorites-header">
         <h2 className="favorites-title">Избранное</h2>
         <p className="favorites-notice">

@@ -7,6 +7,7 @@ import {
   trackRecipeTimeSpent,
 } from '../../services/analyticsService';
 import RecipeDetail from '../../components/RecipeDetail/RecipeDetail';
+import SimilarRecipes from '../../components/SimilarRecipes/SimilarRecipes';
 import './RecipePage.css';
 
 export default function RecipePage() {
@@ -14,10 +15,12 @@ export default function RecipePage() {
   const navigate = useNavigate();
   const recipe = id ? getRecipeById(id) : undefined;
 
-  // Track page view
+  // Track page view + scroll to top when the recipe id changes
+  // (so clicks on "similar recipes" don't land users mid-page).
   useEffect(() => {
     if (recipe) {
       trackRecipeView(recipe.id, recipe.name);
+      window.scrollTo({ top: 0, behavior: 'auto' });
     } else if (id) {
       navigate('/', { replace: true });
     }
@@ -62,6 +65,7 @@ export default function RecipePage() {
   return (
     <div className="recipe-page">
       <RecipeDetail recipe={recipe} />
+      <SimilarRecipes recipe={recipe} />
     </div>
   );
 }

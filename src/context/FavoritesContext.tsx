@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { getRecipeById } from '../services/recipeService';
+import { trackFavoriteAdded, trackFavoriteRemoved } from '../services/analyticsService';
 
 interface FavoritesContextType {
   favorites: string[];
@@ -30,9 +32,16 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
   }, [favorites]);
 
   function toggleFavorite(id: string) {
-    setFavorites(prev =>
-      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id],
-    );
+    setFavorites(prev => {
+      const wasFavorite = prev.includes(id);
+      const name = getRecipeById(id)?.name ?? '';
+      if (wasFavorite) {
+        trackFavoriteRemoved(id, name);
+        return prev.filter(f => f !== id);
+      }
+      trackFavoriteAdded(id, name);
+      return [...prev, id];
+    });
   }
 
   function isFavorite(id: string) {

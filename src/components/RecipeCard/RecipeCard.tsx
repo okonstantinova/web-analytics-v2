@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { ClockCircleOutlined, FireOutlined, HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { Tag } from 'antd';
 import type { Recipe } from '../../types';
-import { trackRecipeCardClick } from '../../services/analyticsService';
+import { trackRecipeCardClick, trackSearchResultClicked } from '../../services/analyticsService';
 import { getRecipeImage } from '../../services/imageService';
 import { useFavorites } from '../../context/FavoritesContext';
 import './RecipeCard.css';
 
 interface RecipeCardProps {
   recipe: Recipe;
+  searchQuery?: string;
+  position?: number;
 }
 
 const mealTypeLabels: Record<string, string> = {
@@ -19,12 +21,15 @@ const mealTypeLabels: Record<string, string> = {
   snack: 'Перекус',
 };
 
-export default function RecipeCard({ recipe }: RecipeCardProps) {
+export default function RecipeCard({ recipe, searchQuery, position }: RecipeCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(recipe.id);
 
   function handleClick() {
     trackRecipeCardClick(recipe.id, recipe.name);
+    if (searchQuery && searchQuery.length >= 2 && position !== undefined) {
+      trackSearchResultClicked(searchQuery, recipe.id, recipe.name, position);
+    }
   }
 
   function handleFavoriteClick(e: MouseEvent) {

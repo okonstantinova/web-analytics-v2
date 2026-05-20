@@ -4,9 +4,10 @@ import './RecipeList.css';
 
 interface RecipeListProps {
   recipes: Recipe[];
+  searchQuery?: string;
 }
 
-export default function RecipeList({ recipes }: RecipeListProps) {
+export default function RecipeList({ recipes, searchQuery }: RecipeListProps) {
   if (recipes.length === 0) {
     return (
       <div className="recipe-list-empty">
@@ -20,8 +21,13 @@ export default function RecipeList({ recipes }: RecipeListProps) {
 
   return (
     <div className="recipe-list">
-      {recipes.map((recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
+      {recipes.map((recipe, index) => (
+        <RecipeCard
+          key={recipe.id}
+          recipe={recipe}
+          searchQuery={searchQuery}
+          position={index + 1}
+        />
       ))}
     </div>
   );

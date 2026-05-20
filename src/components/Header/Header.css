@@ -16,6 +16,11 @@
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: -0.5px;
+  transition: filter 0.15s;
+}
+
+.header-logo:hover {
+  filter: brightness(0.8);
 }
 
 .header-nav {

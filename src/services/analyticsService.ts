@@ -49,3 +49,51 @@ export function trackFilterReset() {
 export function trackSearchPerformed(query: string) {
   ym('reachGoal', 'search_performed', { query });
 }
+
+// Search returned zero results
+export function trackSearchZeroResults(query: string) {
+  ym('reachGoal', 'search_zero_results', { query });
+}
+
+// User clicked a recipe card while a search query was active
+export function trackSearchResultClicked(query: string, recipeId: string | number, recipeName: string, position: number) {
+  ym('reachGoal', 'search_result_clicked', {
+    query,
+    recipe_id: recipeId,
+    recipe_name: recipeName,
+    position,
+  });
+}
+
+// Full filter combination at the moment a filter was applied
+export function trackFilterComboApplied(combo: Record<string, string | number | boolean>) {
+  ym('reachGoal', 'filter_combo_applied', combo);
+}
+
+// Favorites
+export function trackFavoriteAdded(recipeId: string | number, recipeName: string) {
+  ym('reachGoal', 'favorite_added', { recipe_id: recipeId, recipe_name: recipeName });
+}
+
+export function trackFavoriteRemoved(recipeId: string | number, recipeName: string) {
+  ym('reachGoal', 'favorite_removed', { recipe_id: recipeId, recipe_name: recipeName });
+}
+
+// Fires once per session if user interacts within engagementWindowMs
+export function trackEngagedSession() {
+  ym('reachGoal', 'engaged_session');
+}
+
+// Recipe read to completion: scroll 100% + at least readSeconds time spent
+export function trackRecipeReadComplete(recipeId: string | number, recipeName: string, seconds: number) {
+  ym('reachGoal', 'recipe_read_complete', {
+    recipe_id: recipeId,
+    recipe_name: recipeName,
+    seconds,
+  });
+}
+
+// Web Vitals — sends a Metrika "params" payload, viewable as user parameters
+export function trackWebVital(name: string, value: number, rating: string) {
+  ym('params', { web_vitals: { [name]: { value: Math.round(value), rating } } });
+}

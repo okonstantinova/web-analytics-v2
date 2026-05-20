@@ -17,6 +17,26 @@ export function getRecipeById(id: string): Recipe | undefined {
   return allRecipes.find((r) => r.id === id);
 }
 
+export function getSimilarRecipes(current: Recipe, limit = 4): Recipe[] {
+  const scored = allRecipes
+    .filter((r) => r.id !== current.id)
+    .map((r) => {
+      let score = 0;
+      if (current.meatType !== 'none' && r.meatType === current.meatType) score += 3;
+      if (r.mealType === current.mealType) score += 2;
+      if (r.cookingMethod === current.cookingMethod) score += 2;
+      if (Math.abs(r.cookingTime - current.cookingTime) <= 10) score += 1;
+      if (Math.abs(r.calories - current.calories) <= 100) score += 1;
+      if (r.difficulty === current.difficulty) score += 1;
+      if (current.isVegan && r.isVegan) score += 1;
+      else if (current.isVegetarian && r.isVegetarian) score += 1;
+      return { recipe: r, score };
+    })
+    .sort((a, b) => b.score - a.score || a.recipe.name.localeCompare(b.recipe.name));
+
+  return scored.slice(0, limit).map((s) => s.recipe);
+}
+
 export function filterRecipes(recipes: Recipe[], filters: FilterState): Recipe[] {
   return recipes.filter((recipe) => {
     if (filters.search) {

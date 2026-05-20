@@ -4,6 +4,29 @@
   padding: 40px 24px 64px;
 }
 
+.favorites-back {
+  margin-bottom: 24px;
+}
+
+.favorites-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  transition: color 0.15s;
+}
+
+.favorites-back-btn:hover {
+  color: var(--color-primary);
+}
+
 .favorites-header {
   margin-bottom: 32px;
 }
