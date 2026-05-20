@@ -13,9 +13,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Repo-specific. In the v2 repo: APP_NAME=v2, APP_HOST=v2.khrum-khrum.info.
-  APP_NAME: v1
-  APP_HOST: v1.khrum-khrum.info
+  APP_NAME: v2
+  APP_HOST: v2.khrum-khrum.info
 
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}    # e.g. <owner>/web-analytics-v1
