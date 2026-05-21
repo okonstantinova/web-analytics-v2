@@ -12,6 +12,7 @@ import {
 import SearchBar from '../../components/SearchBar/SearchBar';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import RecipeList from '../../components/RecipeList/RecipeList';
+import RecipeOfTheDay from '../../components/RecipeOfTheDay/RecipeOfTheDay';
 import './HomePage.css';
 
 function buildFilterCombo(filters: FilterState): Record<string, string | number | boolean> {
@@ -31,6 +32,17 @@ function buildFilterCombo(filters: FilterState): Record<string, string | number 
 export default function HomePage() {
   const { filters, updateFilter, resetFilters } = useFilters();
   const recipes = useRecipes(filters);
+
+  const filtersUntouched =
+    !filters.mealType &&
+    !filters.cookingMethod &&
+    !filters.meatType &&
+    !filters.difficulty &&
+    filters.maxCookingTime === DEFAULT_MAX_COOKING_TIME &&
+    filters.maxCalories === DEFAULT_MAX_CALORIES &&
+    !filters.isVegetarian &&
+    !filters.isVegan;
+  const showRecipeOfTheDay = filtersUntouched && filters.search.trim().length === 0;
 
   const handleSearchChange = useCallback(
     (value: string) => {
@@ -59,15 +71,6 @@ export default function HomePage() {
   const lastZeroQueryRef = useRef<string>('');
   useEffect(() => {
     const q = filters.search.trim();
-    const filtersUntouched =
-      !filters.mealType &&
-      !filters.cookingMethod &&
-      !filters.meatType &&
-      !filters.difficulty &&
-      filters.maxCookingTime === DEFAULT_MAX_COOKING_TIME &&
-      filters.maxCalories === DEFAULT_MAX_CALORIES &&
-      !filters.isVegetarian &&
-      !filters.isVegan;
 
     if (q.length < 2 || recipes.length !== 0 || !filtersUntouched) {
       if (recipes.length !== 0 || q.length < 2) lastZeroQueryRef.current = '';
@@ -80,7 +83,7 @@ export default function HomePage() {
       trackSearchZeroResults(q);
     }, 600);
     return () => window.clearTimeout(t);
-  }, [filters, recipes.length]);
+  }, [filters, recipes.length, filtersUntouched]);
 
   return (
     <main className="home-page">
@@ -100,6 +103,12 @@ export default function HomePage() {
             onReset={handleReset}
           />
         </section>
+
+        {showRecipeOfTheDay && (
+          <section className="home-rotd" aria-label="Рецепт дня">
+            <RecipeOfTheDay />
+          </section>
+        )}
 
         <section className="home-results">
           <div className="home-results-count">

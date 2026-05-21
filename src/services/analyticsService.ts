@@ -12,8 +12,17 @@ export function trackPageHit(url: string) {
 }
 
 // Recipe list
-export function trackRecipeCardClick(recipeId: string | number, recipeName: string) {
-  ym('reachGoal', 'recipe_card_click', { recipe_id: recipeId, recipe_name: recipeName });
+export type RecipeCardSource = 'grid' | 'hero';
+export function trackRecipeCardClick(
+  recipeId: string | number,
+  recipeName: string,
+  source: RecipeCardSource = 'grid',
+) {
+  ym('reachGoal', 'recipe_card_click', {
+    recipe_id: recipeId,
+    recipe_name: recipeName,
+    source,
+  });
 }
 
 // Recipe page
