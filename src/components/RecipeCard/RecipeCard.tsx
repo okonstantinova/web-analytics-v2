@@ -26,7 +26,7 @@ export default function RecipeCard({ recipe, searchQuery, position }: RecipeCard
   const favorited = isFavorite(recipe.id);
 
   function handleClick() {
-    trackRecipeCardClick(recipe.id, recipe.name);
+    trackRecipeCardClick(recipe.id, recipe.name, 'grid');
     if (searchQuery && searchQuery.length >= 2 && position !== undefined) {
       trackSearchResultClicked(searchQuery, recipe.id, recipe.name, position);
     }

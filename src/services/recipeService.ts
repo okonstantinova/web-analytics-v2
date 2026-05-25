@@ -17,6 +17,14 @@ export function getRecipeById(id: string): Recipe | undefined {
   return allRecipes.find((r) => r.id === id);
 }
 
+// Deterministic pick that rotates once per local calendar day:
+// same recipe for every visitor on the same date, new one at local midnight.
+export function getRecipeOfTheDay(date: Date = new Date()): Recipe {
+  const localMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  const dayIndex = Math.floor(localMidnight / 86_400_000);
+  return allRecipes[dayIndex % allRecipes.length];
+}
+
 export function getSimilarRecipes(current: Recipe, limit = 4): Recipe[] {
   const scored = allRecipes
     .filter((r) => r.id !== current.id)
